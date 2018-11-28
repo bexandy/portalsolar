@@ -7,30 +7,35 @@ Add your custom styles in this file so it is easier to update the theme.
 /************************************************************************
 ***************** Address Container in Featured Items Box ***************
 ************************************************************************/
-.item-featured .item-box-content-wrap .address-container {
+.item-featured .item-box-content-wrap .address-container,
+.item-featured .item-info-wrap .address-container {
     position: relative;
 }
 
-.elm-items-main .layout-box .item-featured .item-box-content-wrap .item-location {
+.elm-items-main .layout-box .item-featured .item-box-content-wrap .item-location, 
+.elm-items-main .layout-box .item-featured .item-info-wrap .item-location {
     padding: 0 20px 0px 20px;
 }
 
 /* Texto Address */
-.item-featured .item-box-content-wrap .address-container h2 {
+.item-featured .item-box-content-wrap .address-container h2,
+.item-featured .item-info-wrap .address-container h2 {
     margin-bottom: 1px;
     padding: 15px 50px 15px 20px;
     position: relative;
     background: #f7f7f7;
 }
 
-.item-featured .item-box-content-wrap .address-container h2 {
+.item-featured .item-box-content-wrap .address-container h2,
+.item-featured .item-info-wrap .address-container h2 {
     font-size: 16px;
     line-height: 20px;
     text-align: left;
 }
 
 /* Contenedor de Datos de Address */
-.item-featured .item-box-content-wrap .address-container > .content {
+.item-featured .item-box-content-wrap .address-container > .content, 
+.item-featured .item-info-wrap .address-container > .content {
     width: 100%;
     padding: 10px 20px 20px 20px;
     background: #f7f7f7;
@@ -39,45 +44,53 @@ Add your custom styles in this file so it is easier to update the theme.
     box-sizing: border-box;
 }
 
-.item-featured .item-box-content-wrap .address-container .content {
+.item-featured .item-box-content-wrap .address-container .content,
+.item-featured .item-info-wrap .address-container .content {
     display: table;
     table-layout: fixed;
 }
 
 
 /* Redes Sociales */
-.item-featured .item-box-content-wrap a {
+.item-featured .item-box-content-wrap a,
+.item-featured .item-info-wrap a {
     display: inline-block !important;
 }
 
 /* Filas de Datos Address */
-.item-featured .item-box-content-wrap .address-row {
+.item-featured .item-box-content-wrap .address-row,
+.item-featured .item-info-wrap .address-row {
     display: table-row;
 }
 
 /* Campo Name Address */
-.item-featured .item-box-content-wrap .address-name {
+.item-featured .item-box-content-wrap .address-name,
+.item-featured .item-info-wrap .address-name {
     display: table-cell;
-    width: 25%;
+    width: 20%;
     padding: 0 15px 0 0px;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
-.item-featured .item-box-content-wrap .address-name h5 {
+.item-featured .item-box-content-wrap .address-name h5,
+.item-featured .item-info-wrap .address-name h5 {
     position: relative;
     margin: 0;
 }
 
 /* Campo Data Address */
-.item-featured .item-box-content-wrap .address-data {
+.item-featured .item-box-content-wrap .address-data,
+.item-featured .item-info-wrap .address-data {
     display: table-cell;
     word-wrap: break-word;
+    text-align: center;
 }
 
 /* Boton de Contacto */
-.item-featured .item-box-content-wrap .contact-owner-container a {
+.item-featured .item-box-content-wrap .contact-owner-container a,
+.item-featured .item-info-wrap .contact-owner-container a {
     background: #9cd8d8;
     color: #fff;
     display: inline-block;
@@ -99,7 +112,8 @@ Add your custom styles in this file so it is easier to update the theme.
     padding: 5px 25px;
 }
 
-.item-featured .item-box-content-wrap .contact-owner-container a {
+.item-featured .item-box-content-wrap .contact-owner-container a,
+.item-featured .item-info-wrap .contact-owner-container a {
     font-size: 14px;
     line-height: 24px;
 }

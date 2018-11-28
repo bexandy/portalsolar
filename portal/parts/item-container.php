@@ -60,6 +60,7 @@
 
 			<div class="item-location"><p class="txtrows-2">{$meta->map['address']}</p></div>
 			
+			{if $isFeatured }
 			<div class="column-grid column-grid-2">
 
 				<div class="column column-span-2 column-narrow column-last">
@@ -82,7 +83,8 @@
 					{/if}
 				</div>
 			</div>
-
+			{/if}
+			
 			{if $addInfo}
 				{if defined('AIT_REVIEWS_ENABLED')}
 					{includePart "portal/parts/carousel-reviews-stars", item => $item, showCount => false}
@@ -133,26 +135,52 @@
 			{if defined('AIT_REVIEWS_ENABLED')}
 				{includePart "portal/parts/carousel-reviews-stars", item => $item, showCount => false}
 			{/if}
+			
+			{if $isFeatured }
+				<div class="column-grid column-grid-2">
 
-			{capture $itemWeb}
-				{if $meta->webLinkLabel}
-					{$meta->webLinkLabel}
-				{else}
-					{$meta->web}
+					<div class="column column-span-2 column-narrow column-last">
+						{* ADDRESS SECTION *}
+						{includePart portal/parts/child-single-item-address}
+						{* ADDRESS SECTION *}
+
+						{if ($meta->contactOwnerBtn and $meta->email) or (defined('AIT_GET_DIRECTIONS_ENABLED'))}
+						<div class="contact-buttons-container">
+						{* CONTACT OWNER SECTION *}
+						{includePart portal/parts/child-single-item-contact-owner}
+						{* CONTACT OWNER SECTION *}
+
+						{* GET DIRECTIONS SECTION *}
+						{if defined('AIT_GET_DIRECTIONS_ENABLED')}
+							{includePart portal/parts/get-directions-button}
+						{/if}
+						{* GET DIRECTIONS SECTION *}
+						</div>
+						{/if}
+					</div>
+				</div>
+			{else}
+				{capture $itemWeb}
+					{if $meta->webLinkLabel}
+						{$meta->webLinkLabel}
+					{else}
+						{$meta->web}
+					{/if}
+				{/capture}
+
+				{if $meta->web}
+				<div class="item-web icon-label">
+					<i class="fa fa-home"></i> <a href="{$meta->web}">{$itemWeb}</a>
+				</div>
 				{/if}
-			{/capture}
 
-			{if $meta->web}
-			<div class="item-web icon-label">
-				<i class="fa fa-home"></i> <a href="{$meta->web}">{$itemWeb}</a>
-			</div>
+				{if $meta->email and $meta->showEmail}
+				<div class="item-mail icon-label">
+					<i class="fa fa-envelope"></i> <a href="mailto:{$meta->email}" target="_top">{$meta->email}</a>
+				</div>
+				{/if}
 			{/if}
-
-			{if $meta->email and $meta->showEmail}
-			<div class="item-mail icon-label">
-				<i class="fa fa-envelope"></i> <a href="mailto:{$meta->email}" target="_top">{$meta->email}</a>
-			</div>
-			{/if}
+			
 
 			{if $item->categories('ait-items')}
 			<div class="item-categories">

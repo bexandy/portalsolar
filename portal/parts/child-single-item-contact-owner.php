@@ -11,10 +11,10 @@
 <div n:class="contact-owner-container, $disabled ? contact-owner-disabled">
 
 	{if !$disabled}
-	<a href="#contact-owner-popup-form" id="contact-owner-popup-button-{$item->id}" class="contact-owner-popup-button">{$settings->contactOwnerButtonTitle|trimWords:10}</a>
+	<a href="#contact-owner-popup-form" id="contact-owner-popup-button-{$htmlId}-{$item->id}" class="contact-owner-popup-button">{$settings->contactOwnerButtonTitle|trimWords:10}</a>
 	<div class="contact-owner-popup-form-container" style="display: none">
 
-		<form id="contact-owner-popup-form-{$item->id}" class="contact-owner-popup-form" onSubmit="javascript:contactOwnerSubmit{$item->id}(event);">
+		<form id="contact-owner-popup-form-{$htmlId}-{$item->id}" class="contact-owner-popup-form" onSubmit="javascript:contactOwnerSubmit{$item->id}(event);">
 			<h3>{$settings->contactOwnerButtonTitle}</h3>
 			<input type="hidden" name="response-email-address" value="{$meta->email}">
 			<input type="hidden" name="response-email-content" value="{$settings->contactOwnerMailForm}">
@@ -29,28 +29,28 @@
 			{/if}
 			
 			<div class="input-container">
-				<input type="text" class="input name" name="user-name" value="" placeholder="{$settings->contactOwnerInputNameLabel}" id="user-name">
+				<input type="text" class="input name" name="user-name" value="" placeholder="{$settings->contactOwnerInputNameLabel}" id="user-name-{$htmlId}-{$item->id}">
 				{if isset($settings->contactOwnerInputNameHelper) && $settings->contactOwnerInputNameHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputNameHelper}</span>
 				{/if}
 			</div>
 
 			<div class="input-container">
-				<input type="text" class="input email" name="user-email" value="" placeholder="{$settings->contactOwnerInputEmailLabel}" id="user-email">
+				<input type="text" class="input email" name="user-email" value="" placeholder="{$settings->contactOwnerInputEmailLabel}" id="user-email-{$htmlId}-{$item->id}">
 				{if isset($settings->contactOwnerInputEmailHelper) && $settings->contactOwnerInputEmailHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputEmailHelper}</span>
 				{/if}
 			</div>
 
 			<div class="input-container">
-				<input type="text" class="input subject" name="response-email-subject" value="" placeholder="{$settings->contactOwnerInputSubjectLabel}" id="user-subject">
+				<input type="text" class="input subject" name="response-email-subject" value="" placeholder="{$settings->contactOwnerInputSubjectLabel}" id="user-subject-{$htmlId}-{$item->id}">
 				{if isset($settings->contactOwnerInputSubjectHelper) && $settings->contactOwnerInputSubjectHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputSubjectHelper}</span>
 				{/if}
 			</div>
 
 			<div class="input-container">
-				<textarea class="user-message" name="user-message" cols="30" rows="4" placeholder="{$settings->contactOwnerInputMessageLabel}" id="user-message"></textarea>
+				<textarea class="user-message" name="user-message" cols="30" rows="4" placeholder="{$settings->contactOwnerInputMessageLabel}" id="user-message-{$htmlId}-{$item->id}"></textarea>
 				{if isset($settings->contactOwnerInputMessageHelper) && $settings->contactOwnerInputMessageHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputMessageHelper}</span>
 				{/if}
@@ -87,7 +87,7 @@
 	</div>
 	<script type="text/javascript" n:syntax="off">
 	jQuery(document).ready(function(){
-		jQuery("#contact-owner-popup-button-<?php echo $item->id ?>").colorbox({ inline:true, href:"#contact-owner-popup-form-<?php echo $item->id ?>" });
+		jQuery("#contact-owner-popup-button-<?php echo $htmlId ?>-<?php echo $item->id ?>").colorbox({ inline:true, href:"#contact-owner-popup-form-<?php echo $htmlId ?>-<?php echo $item->id ?>" });
 	});
 	function contactOwnerSubmit<?php echo $item->id ?>(e){
 		e.preventDefault();
@@ -241,6 +241,6 @@
 
 	</script>
 	{else}
-	<a href="#contact-owner-popup-form" id="contact-owner-popup-button-{$item->id}" class="contact-owner-popup-button">{$settings->contactOwnerButtonDisabledTitle|trimWords:10}</a>
+	<a href="#contact-owner-popup-form" id="contact-owner-popup-button-{$htmlId}-{$item->id}" class="contact-owner-popup-button">{$settings->contactOwnerButtonDisabledTitle|trimWords:10}</a>
 	{/if}
 </div>
