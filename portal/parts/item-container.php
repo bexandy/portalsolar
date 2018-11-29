@@ -73,12 +73,6 @@
 					{* CONTACT OWNER SECTION *}
 					{includePart portal/parts/child-single-item-contact-owner}
 					{* CONTACT OWNER SECTION *}
-
-					{* GET DIRECTIONS SECTION *}
-					{if defined('AIT_GET_DIRECTIONS_ENABLED')}
-						{includePart portal/parts/get-directions-button}
-					{/if}
-					{* GET DIRECTIONS SECTION *}
 					</div>
 					{/if}
 				</div>
@@ -144,17 +138,11 @@
 						{includePart portal/parts/child-single-item-address}
 						{* ADDRESS SECTION *}
 
-						{if ($meta->contactOwnerBtn and $meta->email) or (defined('AIT_GET_DIRECTIONS_ENABLED'))}
+						{if ($meta->contactOwnerBtn and $meta->email)}
 						<div class="contact-buttons-container">
 						{* CONTACT OWNER SECTION *}
 						{includePart portal/parts/child-single-item-contact-owner}
 						{* CONTACT OWNER SECTION *}
-
-						{* GET DIRECTIONS SECTION *}
-						{if defined('AIT_GET_DIRECTIONS_ENABLED')}
-							{includePart portal/parts/get-directions-button}
-						{/if}
-						{* GET DIRECTIONS SECTION *}
 						</div>
 						{/if}
 					</div>

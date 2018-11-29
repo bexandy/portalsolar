@@ -17,6 +17,11 @@ Add your custom styles in this file so it is easier to update the theme.
     padding: 0 20px 0px 20px;
 }
 
+.elm-items-main .layout-box .item .item-title h3, 
+.items-container .layout-box .item .item-title h3 {
+    white-space: normal;
+}
+
 /* Texto Address */
 .item-featured .item-box-content-wrap .address-container h2,
 .item-featured .item-info-wrap .address-container h2 {
@@ -72,6 +77,7 @@ Add your custom styles in this file so it is easier to update the theme.
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    text-align: left;
 }
 
 .item-featured .item-box-content-wrap .address-name h5,
@@ -85,7 +91,7 @@ Add your custom styles in this file so it is easier to update the theme.
 .item-featured .item-info-wrap .address-data {
     display: table-cell;
     word-wrap: break-word;
-    text-align: center;
+    text-align: right;
 }
 
 /* Boton de Contacto */
@@ -114,7 +120,7 @@ Add your custom styles in this file so it is easier to update the theme.
 
 .item-featured .item-box-content-wrap .contact-owner-container a,
 .item-featured .item-info-wrap .contact-owner-container a {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 24px;
 }
 
