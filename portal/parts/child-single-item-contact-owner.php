@@ -8,14 +8,16 @@
 	{var $disabled = ''}
 {/if}
 <?php $layout_type = str_replace(chr(34), '', $layout); ?>
+<?php $itemList_unique_id = $layout_type.'-item'.$iterator->counter.'-'.$item->id; ?>
 <div n:class="contact-owner-container, $disabled ? contact-owner-disabled">
 
 	{if !$disabled}
-	<a href="#contact-owner-popup-form-<?php echo $layout_type  ?>-<?php echo $item->id ?>" id="contact-owner-popup-button-<?php echo $layout_type  ?>-{$item->id}" class="contact-owner-popup-button">{$settings->contactOwnerButtonTitle|trimWords:10}</a>
+	<a href="#contact-owner-popup-form-<?php echo $itemList_unique_id  ?>" id="contact-owner-popup-button-<?php echo $itemList_unique_id  ?>" class="contact-owner-popup-button">{$settings->contactOwnerButtonTitle|trimWords:10}</a>
 	<div class="contact-owner-popup-form-container" style="display: none">
 
-		<form id="contact-owner-popup-form-<?php echo $layout_type  ?>-{$item->id}" class="contact-owner-popup-form" onSubmit="javascript:contactOwnerSubmit(event);">
+		<form id="contact-owner-popup-form-<?php echo $itemList_unique_id  ?>" class="contact-owner-popup-form" onSubmit="javascript:contactOwnerSubmit(event);">
 			<h3>{$settings->contactOwnerButtonTitle}</h3>
+			<input type="hidden" name="business-name" value="{!$item->title}">
 			<input type="hidden" name="response-email-address" value="{$meta->email}">
 			<input type="hidden" name="response-email-content" value="{$settings->contactOwnerMailForm}">
 			{if $settings->contactOwnerMailFromName}
@@ -29,28 +31,28 @@
 			{/if}
 			
 			<div class="input-container">
-				<input type="text" class="input name" name="user-name" value="" placeholder="{$settings->contactOwnerInputNameLabel}" id="user-name-<?php echo $layout_type  ?>-{$item->id}">
+				<input type="text" class="input name" name="user-name" value="" placeholder="{$settings->contactOwnerInputNameLabel}" id="user-name-<?php echo $itemList_unique_id  ?>">
 				{if isset($settings->contactOwnerInputNameHelper) && $settings->contactOwnerInputNameHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputNameHelper}</span>
 				{/if}
 			</div>
 
 			<div class="input-container">
-				<input type="text" class="input email" name="user-email" value="" placeholder="{$settings->contactOwnerInputEmailLabel}" id="user-email-<?php echo $layout_type  ?>-{$item->id}">
+				<input type="text" class="input email" name="user-email" value="" placeholder="{$settings->contactOwnerInputEmailLabel}" id="user-email-<?php echo $itemList_unique_id  ?>">
 				{if isset($settings->contactOwnerInputEmailHelper) && $settings->contactOwnerInputEmailHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputEmailHelper}</span>
 				{/if}
 			</div>
 
 			<div class="input-container">
-				<input type="text" class="input subject" name="response-email-subject" value="" placeholder="{$settings->contactOwnerInputSubjectLabel}" id="user-subject-<?php echo $layout_type  ?>-{$item->id}">
+				<input type="text" class="input subject" name="response-email-subject" value="" placeholder="{$settings->contactOwnerInputSubjectLabel}" id="user-subject-<?php echo $itemList_unique_id  ?>">
 				{if isset($settings->contactOwnerInputSubjectHelper) && $settings->contactOwnerInputSubjectHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputSubjectHelper}</span>
 				{/if}
 			</div>
 
 			<div class="input-container">
-				<textarea class="user-message" name="user-message" cols="30" rows="4" placeholder="{$settings->contactOwnerInputMessageLabel}" id="user-message-<?php echo $layout_type  ?>-{$item->id}"></textarea>
+				<textarea class="user-message" name="user-message" cols="30" rows="4" placeholder="{$settings->contactOwnerInputMessageLabel}" id="user-message-<?php echo $itemList_unique_id  ?>"></textarea>
 				{if isset($settings->contactOwnerInputMessageHelper) && $settings->contactOwnerInputMessageHelper != ""}
 					<span class="input-helper">{!$settings->contactOwnerInputMessageHelper}</span>
 				{/if}
@@ -87,10 +89,10 @@
 	</div>
 	<script type="text/javascript" n:syntax="off">
 	jQuery(document).ready(function(){
-		jQuery("#contact-owner-popup-button-<?php echo $layout_type  ?>-<?php echo $item->id ?>").colorbox({ inline:true, href:"#contact-owner-popup-form-<?php echo $layout_type  ?>-<?php echo $item->id ?>" });
+		jQuery("#contact-owner-popup-button-<?php echo $itemList_unique_id  ?>").colorbox({ inline:true, href:"#contact-owner-popup-form-<?php echo $itemList_unique_id  ?>" });
 	});
 	</script>
 	{else}
-	<a href="#contact-owner-popup-form-<?php echo $layout_type  ?>-<?php echo $item->id ?>" id="contact-owner-popup-button-<?php echo $layout_type  ?>-{$item->id}" class="contact-owner-popup-button">{$settings->contactOwnerButtonDisabledTitle|trimWords:10}</a>
+	<a href="#contact-owner-popup-form-<?php echo $itemList_unique_id  ?>" id="contact-owner-popup-button-<?php echo $itemList_unique_id  ?>" class="contact-owner-popup-button">{$settings->contactOwnerButtonDisabledTitle|trimWords:10}</a>
 	{/if}
 </div>

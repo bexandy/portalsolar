@@ -72,7 +72,7 @@ Add your custom styles in this file so it is easier to update the theme.
 .item-featured .item-box-content-wrap .address-name,
 .item-featured .item-info-wrap .address-name {
     display: table-cell;
-    width: 20%;
+    width: 30%;
     padding: 0 15px 0 0px;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

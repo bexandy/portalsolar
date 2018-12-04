@@ -30,13 +30,47 @@
 						if(passedInputs == $inputs.length && mailCheck.test(mailParsed) ){
 							// ajax post -- if data are filled
 							var data = {};
+							var dataAdmin = {};
 							$inputs.each(function(){
 								data[jQuery(this).attr('name')] = jQuery(this).val();
 							});
+							dataAdmin = data;
 							//disable send button
 							$submitButton.attr('disabled', true);
-							//send email
+							//send email to business
 							ait.ajax.post('contact-owner:send', data).done(function(data){
+								if(data.success == true){
+									$messages.find('.message-success').fadeIn('fast').delay(3000).fadeOut("fast", function(){
+										//regenerate captcha
+										regenerateCaptcha($captchaContainer);
+										jQuery.colorbox.close();
+										$form.find('input[type=text], textarea').each(function(){
+											jQuery(this).attr('value', "");
+										});
+										$submitButton.removeAttr('disabled');
+									});
+									$loader.fadeOut('slow');
+								} else {
+									$messages.find('.message-error-server').fadeIn('fast').delay(3000).fadeOut("fast");
+									$submitButton.removeAttr('disabled');
+									//regenerate captcha
+									regenerateCaptcha($captchaContainer);
+									$loader.fadeOut('slow');
+								}
+								
+							}).fail(function(){
+								$messages.find('.message-error-server').fadeIn('fast').delay(3000).fadeOut("fast");
+								$submitButton.removeAttr('disabled');
+								//regenerate captcha
+								regenerateCaptcha($captchaContainer);
+								$loader.fadeOut('slow');
+							});
+							//send email to admin
+							dataAdmin['response-email-address'] = dataAdmin['response-email-sender-address']; 
+							dataAdmin['response-email-content'] = 'El usuario '+dataAdmin['user-name']+' ha contactado con la empresa '+ dataAdmin['business-name'];
+							dataAdmin['response-email-subject'] = 'Notificación de envio de mensaje a empresa';
+							$submitButton.attr('disabled', true);
+							ait.ajax.post('contact-owner:send', dataAdmin).done(function(data){
 								if(data.success == true){
 									$messages.find('.message-success').fadeIn('fast').delay(3000).fadeOut("fast", function(){
 										//regenerate captcha
@@ -95,12 +129,40 @@
 				if(passedInputs == $inputs.length && mailCheck.test(mailParsed) ){
 					// ajax post -- if data are filled
 					var data = {};
+					var dataAdmin = {};
+
 					$inputs.each(function(){
 						data[jQuery(this).attr('name')] = jQuery(this).val();
 					});
+					dataAdmin = data;
 					//disable send button
 					$submitButton.attr('disabled', true);
+					//mail to business
 					ait.ajax.post('contact-owner:send', data).done(function(data){
+						if(data.success == true){
+							$messages.find('.message-success').fadeIn('fast').delay(3000).fadeOut("fast", function(){
+								jQuery.colorbox.close();
+								$form.find('input[type=text], textarea').each(function(){
+									jQuery(this).attr('value', "");
+								});
+								$submitButton.removeAttr('disabled');
+							});
+						} else {
+							$messages.find('.message-error-server').fadeIn('fast').delay(3000).fadeOut("fast");
+							$submitButton.removeAttr('disabled');
+						}
+						$loader.fadeOut('slow');
+					}).fail(function(){
+						$messages.find('.message-error-server').fadeIn('fast').delay(3000).fadeOut("fast");
+						$submitButton.removeAttr('disabled');
+						$loader.fadeOut('slow');
+					});
+					//mail to admin site
+					dataAdmin['response-email-address'] = dataAdmin['response-email-sender-address']; 
+					dataAdmin['response-email-content'] = 'El usuario '+dataAdmin['user-name']+' ha contactado con la empresa '+ dataAdmin['business-name'];
+					dataAdmin['response-email-subject'] = 'Notificación de envio de mensaje a empresa';
+					$submitButton.attr('disabled', true);
+					ait.ajax.post('contact-owner:send', dataAdmin).done(function(data){
 						if(data.success == true){
 							$messages.find('.message-success').fadeIn('fast').delay(3000).fadeOut("fast", function(){
 								jQuery.colorbox.close();
