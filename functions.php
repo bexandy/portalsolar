@@ -27,3 +27,11 @@ function my_enqueue_assets() {
 }
 
 add_action( 'wp_enqueue_scripts', 'my_enqueue_assets' );
+
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+    return 'Tim Smith';
+}
+ 
+// Hooking up our functions to WordPress filters 
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
