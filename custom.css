@@ -127,3 +127,14 @@ Add your custom styles in this file so it is easier to update the theme.
 /************************************************************************
 ************* FIN Address Container in Featured Items Box ***************
 ************************************************************************/
+*
+fieldset.seccion-paquete { 
+  display: block;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-top: 0.35em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 2px groove black !important;
+}
