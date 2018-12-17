@@ -20,9 +20,9 @@ add_action('template_redirect', 'wh_redirect_to_home');
 function br_enqueue_assets() {
 	global $wp_query;
 
-	if (is_home() || is_front_page()) {
+	//if (is_home() || is_front_page()) {
 		wp_enqueue_script( 'contact-owner-homepage',  get_stylesheet_directory_uri() . '/js/contact-owner-homepage.js',array( 'jquery' ), '1.0', true );
-	}
+	//}
 }
 
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );

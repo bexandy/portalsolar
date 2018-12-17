@@ -65,13 +65,13 @@ Add your custom styles in this file so it is easier to update the theme.
 /* Filas de Datos Address */
 .item-featured .item-box-content-wrap .address-row,
 .item-featured .item-info-wrap .address-row {
-    display: table-row;
+    display: table-row-group;
 }
 
 /* Campo Name Address */
 .item-featured .item-box-content-wrap .address-name,
 .item-featured .item-info-wrap .address-name {
-    display: table-cell;
+    display: table-row;
     width: 30%;
     padding: 0 15px 0 0px;
     -moz-box-sizing: border-box;
@@ -89,7 +89,7 @@ Add your custom styles in this file so it is easier to update the theme.
 /* Campo Data Address */
 .item-featured .item-box-content-wrap .address-data,
 .item-featured .item-info-wrap .address-data {
-    display: table-cell;
+    display: table-row;
     word-wrap: break-word;
     text-align: right;
 }

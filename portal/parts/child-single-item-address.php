@@ -1,13 +1,11 @@
 <div n:class="'address-container', $meta->displaySocialIcons && count($meta->socialIcons) > 0 ? social-icons-displayed">
-	<h2>{__ 'Contact'}</h2>
 
-	{includePart portal/parts/single-item-social-icons}
 
 	<div class="content">
 
 		{if !$meta->telephone && $settings->addressHideEmptyFields}{else}
 		<div class="address-row row-telephone">
-			<div class="address-name"><h5>{__ 'Telephone'}:</h5></div>
+			<div class="address-name"><h5>{__ 'Teléfono'}:</h5></div>
 			<div class="address-data">
 				{if $meta->telephone}
 				<p>
@@ -70,4 +68,7 @@
 		</div>
 		{/if}
 	</div>
+
+	{includePart portal/parts/single-item-social-icons}
+	
 </div>
