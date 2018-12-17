@@ -7,6 +7,53 @@ Add your custom styles in this file so it is easier to update the theme.
 /************************************************************************
 ***************** Address Container in Featured Items Box ***************
 ************************************************************************/
+.elm-items-main .layout-list .item .item-categories, 
+.items-container .layout-list .item .item-categories {
+    text-align: center;
+}
+
+.elm-items-main .layout-box .item.item-featured .item-box-content-wrap {
+    min-height: 390px;
+}
+
+.elm-content-main .layout-box .item .item-box-content-wrap {
+    min-height: 390px;
+}
+
+.elm-items-main .layout-list .item-featured .item-thumbnail, 
+.items-container .layout-list .item-featured .item-thumbnail {
+    width: 30%;
+}
+
+.elm-items-main .layout-list .item-featured .item-content, 
+.items-container .layout-list .item-featured .item-content {
+    margin-left: 30%;
+}
+
+.elm-items-main .item .contact-buttons-container {
+    background: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.elm-items-main .layout-box .item .item-title, .items-container .layout-box .item .item-title {
+    padding: 35px 20px 0px 20px;
+}
+
+.elm-items-main .layout-box .item .item-location p.txtrows-2, 
+.items-container .layout-box .item .item-location p.txtrows-2 {
+    height: auto;
+}
+
+.elm-items-main .item-featured .social-icons-displayed div.social-icons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative !important;
+    right: 0;
+    top: 0;
+}
+
 .item-featured .item-box-content-wrap .address-container,
 .item-featured .item-info-wrap .address-container {
     position: relative;
@@ -15,6 +62,13 @@ Add your custom styles in this file so it is easier to update the theme.
 .elm-items-main .layout-box .item-featured .item-box-content-wrap .item-location, 
 .elm-items-main .layout-box .item-featured .item-info-wrap .item-location {
     padding: 0 20px 0px 20px;
+    color: #ff9c00;
+}
+
+.elm-items-main .layout-box .item .item-location, 
+.items-container .layout-box .item .item-location {
+    padding: 0 20px 0px 20px;
+    color: #ff9c00;
 }
 
 .elm-items-main .layout-box .item .item-title h3, 
@@ -28,7 +82,7 @@ Add your custom styles in this file so it is easier to update the theme.
     margin-bottom: 1px;
     padding: 15px 50px 15px 20px;
     position: relative;
-    background: #f7f7f7;
+    background: none;
 }
 
 .item-featured .item-box-content-wrap .address-container h2,
@@ -42,8 +96,8 @@ Add your custom styles in this file so it is easier to update the theme.
 .item-featured .item-box-content-wrap .address-container > .content, 
 .item-featured .item-info-wrap .address-container > .content {
     width: 100%;
-    padding: 10px 20px 20px 20px;
-    background: #f7f7f7;
+    padding: 0px 10px 0px 10px;
+    background: none;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -51,8 +105,10 @@ Add your custom styles in this file so it is easier to update the theme.
 
 .item-featured .item-box-content-wrap .address-container .content,
 .item-featured .item-info-wrap .address-container .content {
-    display: table;
-    table-layout: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.1em;
 }
 
 
@@ -65,19 +121,18 @@ Add your custom styles in this file so it is easier to update the theme.
 /* Filas de Datos Address */
 .item-featured .item-box-content-wrap .address-row,
 .item-featured .item-info-wrap .address-row {
-    display: table-row-group;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Campo Name Address */
 .item-featured .item-box-content-wrap .address-name,
 .item-featured .item-info-wrap .address-name {
-    display: table-row;
-    width: 30%;
-    padding: 0 15px 0 0px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
 }
 
 .item-featured .item-box-content-wrap .address-name h5,
@@ -89,9 +144,11 @@ Add your custom styles in this file so it is easier to update the theme.
 /* Campo Data Address */
 .item-featured .item-box-content-wrap .address-data,
 .item-featured .item-info-wrap .address-data {
-    display: table-row;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     word-wrap: break-word;
-    text-align: right;
+    text-align: center;
 }
 
 /* Boton de Contacto */

@@ -113,7 +113,12 @@ function br_pack_display_screen() {
 	$features = array(
 		'Content' => 'content',
 		'Mapa' => 'map',
-		'Datos Contacto' => 'item-address',
+		'Dirección' => 'address',
+		'Coordenadas GPS' => 'gps',
+		'Teléfono' => 'telephone',
+		'Correo Electrónico' => 'email',
+		'Página Web' => 'web',
+		'Redes Social' => 'social-icons',
 		'Botón de Contacto con la Empresa' => 'contact-owner',
 		'Horario de Apertura' => 'opening-hours',
 		'Compartir en Redes Sociales' => 'item-social',

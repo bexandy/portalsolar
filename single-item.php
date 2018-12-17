@@ -26,11 +26,11 @@
 		<div class="item-content-wrap" itemscope itemtype="http://schema.org/LocalBusiness">
 			<meta itemprop="name" content="{$post->title}">
 			<meta itemprop="image" content="{$post->imageUrl}">
-			{if  ($pack_display[$authorPack]['item-address'] || $isAuthorAdmin)}
+
 			{if $meta->map['address']}
 			<meta itemprop="address" content="{$meta->map['address']}">
 			{/if}
-			{/if}
+
 		{*RICH SNIPPET WRAP*}
 
 			{* CONTENT SECTION *}
@@ -80,11 +80,11 @@
 				</div>
 
 				<div class="column column-span-2 column-narrow column-last">
-					{if ($pack_display[$authorPack]['item-address'] || $isAuthorAdmin)}
+
 					{* ADDRESS SECTION *}
 					{includePart portal/parts/single-item-address}
 					{* ADDRESS SECTION *}
-					{/if}
+
 
 					{if ($meta->contactOwnerBtn and $meta->email) or (defined('AIT_GET_DIRECTIONS_ENABLED'))}
 					<div class="contact-buttons-container">
