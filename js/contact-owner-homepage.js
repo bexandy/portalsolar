@@ -1,7 +1,7 @@
 	function contactOwnerSubmit(e){
 		e.preventDefault();
 
-		var $form = jQuery("#"+e.target.id);
+		var $form = jQuery(e.target);
 		var $inputs = $form.find('input, textarea');
 		var $submitButton = $form.find("button.contact-owner-send");
 		var $loader = $form.find("i.fa-refresh");

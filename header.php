@@ -29,6 +29,7 @@
 	{var $searchFormClass = $elements->unsortable[search-form]->option('type') != "" ? "search-form-type-".$elements->unsortable[search-form]->option('type') : "search-form-type-1"}
 {/if}
 
+{var $homeUrl = home_url()}
 <body n:class="$wp->bodyHtmlClass(false), defined('AIT_REVIEWS_ENABLED') ? reviews-enabled, $searchFormClass, $options->layout->general->showBreadcrumbs ? breadcrumbs-enabled">
 	{* usefull for inline scripts like facebook social plugins scripts, etc... *}
 	{doAction ait-html-body-begin}

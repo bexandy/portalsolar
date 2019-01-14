@@ -108,7 +108,8 @@ add_action('admin_init', 'br_registrar_opciones_paquetes');
 
 function br_pack_display_screen() {
 	global $wp_roles;
-	$packages = new ThemePackages();
+	add_role( 'cityguide_noauthor', 'noAuthor', array( ) );
+	$sinAuthor = new ThemePackage('noauthor', 'cityguide_noauthor', 'Empresas sin Autor asignado');
 	$roles = getThemeUserRoles();
 	$features = array(
 		'Content' => 'content',
@@ -153,7 +154,7 @@ function br_pack_display_screen() {
 				<div id="accordion">				
 				<!--form fields will go here -->
 				<?php foreach ($roles as $rol) { ?>
-					<h3><?php echo $packages->getPackageBySlug($rol->name)->getName() ?></h3>
+					<h3><?php echo getRoleDisplayName($rol->name) ?></h3>
 					<div class="seccion-paquete collapsible">
 						<table class="form-table">
 						<?php foreach($features as $name => $feature){ ?>
@@ -183,3 +184,78 @@ function br_pack_display_screen() {
 
 /********************* Opciones de Visibilidad de Paquetes (Formulario Propio) **************************************/
 
+/*
+add_filter('ait-theme-config', function ($config) {
+
+	// titles
+	$titles = array();
+	for ($i=1; $i <= 4; $i++) {
+		$titles[$i] = new NNeonEntity;
+		$titles[$i]->value = 'section';
+	}
+	$titles[2]->attributes = array('title' => __('Credentials','ait-paypal-subscriptions'), 'help' => __('The correct URL setting for Instant Payment Notifications (IPN) on PayPal website is also required for handling automatic recurring payments. See details <a href="https://www.ait-themes.club/doc/paypal-subscriptions-plugin-theme-options/">here</a>', 'ait-paypal-subscriptions').'<br><br>'.__('Your URL for notifications:', 'ait-paypal-subscriptions').' '.home_url('?ait-paypal-subscriptions-action=notification'));
+	$titles[3]->attributes = array('title' => __('Redirections','ait-paypal-subscriptions'));
+	$titles[4]->attributes = array('title' => __('Logging','ait-paypal-subscriptions'));
+
+	// PayPal Single Payments plugin is active
+	if (isset($config['paypal-functions'])) {
+		// Add help text
+		$config['paypal-functions']['options'][2] = $titles[2];
+	} else {
+		$config['paypal-functions'] = array(
+			'title' => 'PayPal Functions',
+			'options' => array(
+
+				2 => $titles[2],
+
+				'realApiUsername' => array(
+					'label' => __('API Username','ait-paypal-subscriptions'),
+					'type' => 'code',
+					'default' => ''
+				),
+				'realApiPassword' => array(
+					'label' => __('API Password','ait-paypal-subscriptions'),
+					'type' => 'code',
+					'default' => ''
+				),
+				'realApiSignature' => array(
+					'label' => __('API Signature','ait-paypal-subscriptions'),
+					'type' => 'code',
+					'default' => ''
+				),
+
+				3 => $titles[3],
+
+				'returnPage' => array(
+					'label' => __('After approving of payment','ait-paypal-subscriptions'),
+					'type' => 'posts',
+					'cpt' => 'page',
+					'default' => '',
+					'help' => __('Visitor is redirected to selected page after successful payment','ait-paypal-subscriptions')
+				),
+				'cancelPage' => array(
+					'label' => __('After cancelling of payment process','ait-paypal-subscriptions'),
+					'type' => 'posts',
+					'cpt' => 'page',
+					'default' => '',
+					'help' => __('Visitor is redirected to selected page after cancelled payment','ait-paypal-subscriptions')
+				),
+
+				4 => $titles[4],
+
+				'logging' => array(
+					'label' => __('Enable logging','ait-paypal-subscriptions'),
+					'type' => 'on-off',
+					'default' => false,
+					'help' => __('Logs are stored in wp-content/paypal-info.log file','ait-paypal-subscriptions')
+				)
+
+			)
+		);
+	}
+
+	return $config;
+
+}, 11);
+
+*/

@@ -12,6 +12,29 @@
 
 	$addInfo - advanced info, bool
 *}
+{* SETTINGS AND DATA *}
+
+	{var $user_meta = get_userdata($item->author->id)}
+	{var $user_roles = $user_meta->roles}
+
+	<?php 
+		$authorPack = 'cityguide_noauthor';
+		$isAuthorAdmin = false;
+		if (!is_null($user_roles)) {
+			foreach ($user_roles as $rol) {
+				if (isThemeUserRole($rol)) {
+					$authorPack = $rol;
+				}			
+			} 
+			
+			if ( in_array( 'administrator', $user_roles, true ) ) {
+	    		$isAuthorAdmin = true;
+			}
+		}
+	?>
+
+	{var $pack_display = get_option('br_pack_display')}
+{* SETTINGS AND DATA *}
 
 {* GLOBAL VARIABLES *}
 
@@ -68,12 +91,14 @@
 					{includePart portal/parts/child-single-item-address}
 					{* ADDRESS SECTION *}
 
-					{if ($meta->contactOwnerBtn and $meta->email) or (defined('AIT_GET_DIRECTIONS_ENABLED'))}
-					<div class="contact-buttons-container">
-					{* CONTACT OWNER SECTION *}
-					{includePart portal/parts/child-single-item-contact-owner}
-					{* CONTACT OWNER SECTION *}
-					</div>
+					{if  ($pack_display[$authorPack]['contact-owner'] || $isAuthorAdmin)}
+						{if ($meta->contactOwnerBtn and $meta->email) or (defined('AIT_GET_DIRECTIONS_ENABLED'))}
+						<div class="contact-buttons-container">
+						{* CONTACT OWNER SECTION *}
+						{includePart portal/parts/child-single-item-contact-owner}
+						{* CONTACT OWNER SECTION *}
+						</div>
+						{/if}
 					{/if}
 				</div>
 			</div>
@@ -130,14 +155,15 @@
 				{includePart "portal/parts/carousel-reviews-stars", item => $item, showCount => false}
 			{/if}
 			
-			{if $isFeatured }
+
 				<div class="column-grid column-grid-2">
 
 					<div class="column column-span-2 column-narrow column-last">
 						{* ADDRESS SECTION *}
 						{includePart portal/parts/child-single-item-address}
 						{* ADDRESS SECTION *}
-
+						
+						{if  ($pack_display[$authorPack]['contact-owner'] || $isAuthorAdmin)}
 						{if ($meta->contactOwnerBtn and $meta->email)}
 						<div class="contact-buttons-container">
 						{* CONTACT OWNER SECTION *}
@@ -145,29 +171,11 @@
 						{* CONTACT OWNER SECTION *}
 						</div>
 						{/if}
+						{/if}
 					</div>
 				</div>
-			{else}
-				{capture $itemWeb}
-					{if $meta->webLinkLabel}
-						{$meta->webLinkLabel}
-					{else}
-						{$meta->web}
-					{/if}
-				{/capture}
 
-				{if $meta->web}
-				<div class="item-web icon-label">
-					<i class="fa fa-home"></i> <a href="{$meta->web}">{$itemWeb}</a>
-				</div>
-				{/if}
 
-				{if $meta->email and $meta->showEmail}
-				<div class="item-mail icon-label">
-					<i class="fa fa-envelope"></i> <a href="mailto:{$meta->email}" target="_top">{$meta->email}</a>
-				</div>
-				{/if}
-			{/if}
 			
 
 			{if $item->categories('ait-items')}

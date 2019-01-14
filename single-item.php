@@ -8,16 +8,20 @@
 		{var $user_roles = $user_meta->roles}
 
 		<?php 
-		foreach ($user_roles as $rol) {
-			if (isThemeUserRole($rol)) {
-				$authorPack = $rol;
-			}			
-		} 
+		$authorPack = 'cityguide_noauthor';
 		$isAuthorAdmin = false;
-		if ( in_array( 'administrator', $user_roles, true ) ) {
-    		$isAuthorAdmin = true;
+		if (!is_null($user_roles)) {
+			foreach ($user_roles as $rol) {
+				if (isThemeUserRole($rol)) {
+					$authorPack = $rol;
+				}			
+			} 
+			
+			if ( in_array( 'administrator', $user_roles, true ) ) {
+	    		$isAuthorAdmin = true;
+			}
 		}
-		?>
+	?>
 
 		{var $pack_display = get_option('br_pack_display')}
 		{* SETTINGS AND DATA *}

@@ -10,9 +10,10 @@
 	<a href="#contact-owner-popup-form" id="contact-owner-popup-button" class="contact-owner-popup-button">{$settings->contactOwnerButtonTitle|trimWords:10}</a>
 	<div class="contact-owner-popup-form-container" style="display: none">
 
+
 		<form id="contact-owner-popup-form" class="contact-owner-popup-form" onSubmit="javascript:contactOwnerSubmit(event);">
 			<h3>{$settings->contactOwnerButtonTitle}</h3>
-			<input type="hidden" name="business-name" value="{!$item->title}">
+			<input type="hidden" name="business-name" value="{!get_the_title(get_the_ID())}">
 			<input type="hidden" name="response-email-address" value="{$meta->email}">
 			<input type="hidden" name="response-email-content" value="{$settings->contactOwnerMailForm}">
 			{if $settings->contactOwnerMailFromName}
