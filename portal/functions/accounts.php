@@ -18,6 +18,12 @@ function aitCheckPackageUserExpirations(){
 		"message" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expirationNotificationMessage']),
 		"expiredSubject" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expiredPackageNotificationSubject']),
 		"expiredMessage" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expiredPackageNotificationMessage']),
+		"trialEnabled" => $themeOptions['packages']['expirationTrialNotificationEnable'],
+		"trialTime" => $themeOptions['packages']['expirationTrialNotificationTime'],
+		"trialSubject" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expirationTrialNotificationSubject']),
+		"trialMessage" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expirationTrialNotificationMessage']),
+		"trialExpiredSubject" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expiredPackageTrialNotificationSubject']),
+		"trialExpiredMessage" => AitLangs::getCurrentLocaleText($themeOptions['packages']['expiredPackageTrialNotificationMessage']),
 	);
 	$packages = new ThemePackages();
 	foreach(get_users() as $user){
@@ -25,6 +31,7 @@ function aitCheckPackageUserExpirations(){
 		$role = reset($user->roles);
 		if(isThemeUserRole($role)){
 			$packageOptions = $packages->getPackageBySlug($role)->getOptions();
+
 			if($packageOptions['expirationLimit'] != 0){
 				$daysLeft = aitGetPackageUserDaysLeft($user->data->ID, $packageOptions['expirationLimit']);
 				if($daysLeft <= 0){
@@ -43,6 +50,26 @@ function aitCheckPackageUserExpirations(){
 					//wp_mail( $user->data->user_email, "CityGuide: Cron Run", "Nothing Done" );
 				}
 			}
+
+			if($packageOptions['trialTime'] != 0){
+				$trialDaysLeft = aitGetTrialPackageUserDaysLeft($user->data->ID, $packageOptions['trialTime']);
+				if($trialDaysLeft <= 0){
+					aitSetTrialPackageUserExpired($user->data->ID);
+					if($notification['trialEnabled']){
+						$notification['trialExpiredMessage'] = str_replace("{username}", $user->data->display_name, $notification['trialExpiredMessage']);
+						wp_mail( $user->data->user_email, $notification['trialExpiredSubject'], $notification['trialExpiredMessage'] );
+					}
+				} elseif ($notification['trialEnabled'] && $trialDaysLeft == $notification['trialTime']) {
+					// used keywords {username}, {trialDaysLeft}
+					$notification['trialMessage'] = str_replace("{username}", $user->data->display_name, $notification['trialMessage']);
+					$notification['trialMessage'] = str_replace("{trialDaysLeft}", $trialDaysLeft, $notification['trialMessage']);
+					wp_mail( $user->data->user_email, $notification['trialSubject'], $notification['trialMessage'] );
+				} else {
+					// nothing here
+					//wp_mail( $user->data->user_email, "CityGuide: Cron Run", "Nothing Done" );
+				}
+			}
+
 		}
 	}
 }
@@ -66,7 +93,7 @@ function aitGetPackageUserDaysLeft($userId, $packageExpirationDays){
 
 	$packageStatus = get_user_option( 'package_status', $userId );
 
-	$time_diff_days = $time_diff_days <=0 ? $packageStatus : $time_diff_days;
+	$time_diff_days = $time_diff_days <=0 ? $packageStatus['status'] : $time_diff_days;
 
 	return $time_diff_days;
 }
@@ -89,7 +116,7 @@ function aitGetTrialPackageUserDaysLeft($userId, $packageExpirationDays){
 
 	$trialStatus = get_user_option( 'trial_status', $userId );
 
-	$time_diff_days = $time_diff_days <=0 ? $trialStatus : $time_diff_days;
+	$time_diff_days = $time_diff_days <=0 ? $trialStatus['status'] : $time_diff_days;
 
 	return $time_diff_days;
 }
@@ -97,7 +124,7 @@ function aitGetTrialPackageUserDaysLeft($userId, $packageExpirationDays){
 function aitSetPackageUserActivationTime($userId, $role){
 	if(isThemeUserRole($role)){
 		$trialStatus = get_user_option( 'trial_status', $userId );
-		if ($trialStatus == 'activated') {
+		if ($trialStatus['status'] == 'activated') {
 			update_user_meta( $userId, 'package_trial_activation_time', array( 'role' => $role, 'time' => time() ) );
 			delete_user_meta( $userId, 'package_activation_time' );
 		} else {
@@ -122,7 +149,17 @@ function aitSetPackageUserExpired($userId){
 	$defaultRole = get_option('default_role');
 	$user->set_role($defaultRole);
 	update_user_meta( $userId, 'package_status', 'expired' );
+	/*
 	$wpdb->query($wpdb->prepare( "UPDATE $wpdb->posts SET post_status = 'draft' WHERE post_author = %d AND post_status = 'publish'", intval($userId)) );
+	*/
+}
+
+function aitSetTrialPackageUserExpired($userId){
+	// set the trial to inactive state
+	// -> set role to subscriber
+	// -> disable all posts by this author -> set them to draft
+	global $wpdb;
+	update_user_meta( $userId, 'trial_status', 'expired' );
 }
 
 function aitSetPackageUserRenewed($userId, $role){
@@ -293,7 +330,7 @@ function showUserAccountInformation($user){
 
 		?>
 		<h3><?php _e('Account', 'ait-admin') ?></h3>
-		<?php if($trialStatus == 'activated'){ ?>
+		<?php if($trialStatus['status'] == 'activated'){ ?>
 			<h4><?php _e('Trial Mode Activated', 'ait-admin') ?></h4>
 		<?php } ?>
 
@@ -362,18 +399,18 @@ function showUserAccountInformation($user){
 		foreach (getThemeUserRoles() as $key => $value){
 			$package = $packages->getPackageBySlug($key);
 			$packageOptions = $package->getOptions();
-			/*
+			
 			if($packageOptions['price'] > $currentPackageOptions['price']){
 				array_push($upgradablePackages, $package);
 			}
-			*/
-			array_push($upgradablePackages, $package);
+			
+			//array_push($upgradablePackages, $package);
 		}
 
 		if(count($upgradablePackages) > 0){
 		// ACCOUNT UPGRADE
 		?>
-		<h3><?php _e('Upgrade / Downgrade Account', 'ait-admin') ?></h3>
+		<h3><?php _e('Upgrade Account', 'ait-admin') ?></h3>
 
 		<table class="form-table">
 
@@ -435,7 +472,7 @@ function showUserAccountInformation($user){
 		}
 	} else {
 		// not a package user ..
-		if($role == $defaultRole){
+		if($role == 'subscriber'){
 			// subscriber can upgrade to package
 			?>
 			<h3><?php _e('Upgrade Account', 'ait-admin') ?></h3>
@@ -501,7 +538,7 @@ function showUserAccountInformation($user){
 		}
 	}
 
-	if($role == $defaultRole){
+	if($role == 'subscriber'){
 
 		$prevRoleSlug = get_user_meta( $user->ID, 'package_name', true );
 		if($prevRoleSlug != ""){

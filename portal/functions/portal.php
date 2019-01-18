@@ -382,6 +382,56 @@ function update_portal_user() {
 }
 add_action('after_setup_theme', 'update_portal_user');
 
+function cancel_portal_user() {
+	if(!empty($_REQUEST['ait-action'])){
+
+		if($_REQUEST['ait-action'] == 'cancel'){
+			$redirect = !empty($_POST['redirect_to']) ? $_POST['redirect_to'] : home_url();
+
+			if(isset($_REQUEST['user'])){
+				$user = new WP_User($_REQUEST['user']);
+				if(isCityguideUser($user->roles)){
+					$role = reset($user->roles);
+					$packages = new ThemePackages();
+
+					$package = $packages->getPackageBySlug($role);
+					$packageOptions = $package->getOptions();
+					$paymentPrice = $packageOptions['price'];
+
+					switch($_REQUEST['payment']){
+						case "paypalRecurring":
+							$paymentsGate = home_url('/')."?ait-payment&";
+							$packageStatus = get_user_option( 'package_status', $user->ID );
+							$paymentsParams = array(
+								'payment-type' => 'paypalRecurring',
+								//'payment-id' => $paymentId,
+								//'payment-price' => $paymentPrice,
+								'payment-data-user' => $user->ID,
+								'payment-data-package' => $package->getSlug(),
+								'payment-data-operation' => 'cancel',
+								'payment-recurring-id' => $packageStatus['payment_id']
+							);
+							$redirect = $paymentsGate.str_replace("?","",http_build_query($paymentsParams));
+						break;
+						default:
+							$headers = array(
+								'Content-Type: text/html; charset=UTF-8',
+							);
+							$message = sprintf(__("User %s with ID #%d (%s) is requesting account cancel via Bank Transfer","ait-admin"), $user->data->user_nicename, $user->ID, $package->getName());
+							wp_mail( get_bloginfo('admin_email'), __('Account cancel request','ait-admin'), $message, $headers );
+							$redirect .= '?ait-notification=user-account-cancel';
+						break;
+					}
+				}
+			}
+
+			wp_safe_redirect( $redirect );
+			exit();
+		}
+	}
+}
+add_action('after_setup_theme', 'cancel_portal_user');
+
 function isPointInRadius($radiusInMeters, $cenLat, $cenLng, $lat, $lng) {
 	$radiusInMeters = floatval($radiusInMeters);
 	$cenLat = floatval($cenLat);

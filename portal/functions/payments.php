@@ -167,24 +167,24 @@ if(class_exists('AitPaypalSubscriptions')){
 
 		if($data['operation'] === 'renew'){
 			$user->set_role($defaultRole);
-			if($trialStatus == 'activated'){
-				update_user_meta( $user->ID, 'trial_status', 'expired' );
-				update_user_meta( $user->ID, 'package_status', 'activated' );
+			if($trialStatus['status'] == 'activated'){
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'expired', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', 'not set' );
-				update_user_meta( $user->ID, 'package_status', 'activated' );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			aitSetPackageUserRenewed($data['user'], $data['package']);
 		}
 
 		if($data['operation'] === 'upgrade'){		
 			$user->set_role($defaultRole);
-			if($trialStatus == 'activated'){
-				update_user_meta( $user->ID, 'trial_status', 'expired' );
-				update_user_meta( $user->ID, 'package_status', 'activated' );
+			if($trialStatus['status'] == 'activated'){
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'expired', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', 'not set' );
-				update_user_meta( $user->ID, 'package_status', 'activated' );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			aitSetPackageUserRenewed($data['user'], $data['package']);
 		}
@@ -209,11 +209,11 @@ if(class_exists('AitPaypalSubscriptions')){
 		if($data['operation'] === 'renew'){
 			$user->set_role($defaultRole);
 			if($packageOptions['trialTime'] != 0){
-				update_user_meta( $user->ID, 'trial_status', 'activated' );
-				update_user_meta( $user->ID, 'package_status', 'not initialized' );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', 'not set' );
-				update_user_meta( $user->ID, 'package_status', 'not initialized' );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			aitSetPackageUserRenewed($data['user'], $data['package']);
 		}
@@ -221,14 +221,36 @@ if(class_exists('AitPaypalSubscriptions')){
 			$user->set_role($defaultRole);
 			
 			if($packageOptions['trialTime'] != 0){
-				update_user_meta( $user->ID, 'trial_status', 'activated' );
-				update_user_meta( $user->ID, 'package_status', 'not initialized' );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', 'not set' );
-				update_user_meta( $user->ID, 'package_status', 'not initialized' );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			
 			aitSetPackageUserRenewed($data['user'], $data['package']);
+		}
+	}
+}
+
+if(class_exists('AitPaypalSubscriptions')){
+	add_action('ait-paypal-subscriptions-profile-canceled','aitPaypalPaymentSubscriptionsCanceled');
+	function aitPaypalPaymentSubscriptionsCanceled($payment) {
+		$data = $payment;
+		$user = new Wp_User($data['user']);
+		$packages = new ThemePackages();
+		$packageOptions = $packages->getPackageBySlug($data['package'])->getOptions();
+		$defaultRole = get_option('default_role');
+
+		if($data['operation'] === 'cancel'){
+			$user->set_role($defaultRole);
+			if($packageOptions['trialTime'] != 0){
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'canceled', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'canceled', 'payment_id' => $payment->recurring_payment_id) );
+			} else {
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'canceled', 'payment_id' => $payment->recurring_payment_id) );
+			}
 		}
 	}
 }

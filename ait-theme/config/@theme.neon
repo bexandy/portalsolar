@@ -1047,6 +1047,34 @@ packages:
 			label: Expired Package Email Message
 			type: textarea
 			default: ""
+		expirationTrialNotificationEnable:
+			label: Trial Enable Email Notification
+			type: on-off
+			default: on
+		expirationTrialNotificationTime:
+			label: Trial Email Notification Time
+			type: range
+			min: 1
+			max: 30
+			step: 1
+			default: 5
+			help: "Number of days before trial expires"
+		expirationTrialNotificationSubject:
+			label: Trial Email Notification Subject
+			type: text
+			default: "Your trial will expire soon"
+		expirationTrialNotificationMessage:
+			label: Trial Email Notification Message
+			type: textarea
+			default: ""
+		expiredPackageTrialNotificationSubject:
+			label: Trial Expired Package Email Subject
+			type: text
+			default: "Your trial has expired"
+		expiredPackageTrialNotificationMessage:
+			label: Trial Expired Package Email Message
+			type: textarea
+			default: ""
 			
 		packageTypes:
 			label: Package Types
