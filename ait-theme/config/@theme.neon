@@ -1131,6 +1131,11 @@ packages:
 					type: number
 					less: false
 					help: "Package trial time in days (0 for not trial). Used for recurring paypal payments."
+				impuesto:
+					label: Habilitar Impuesto
+					type: on-off
+					less: false
+					help: "Habilitar para incluir el impuesto en la facturacion"
 				price:
 					label: Price
 					type: number

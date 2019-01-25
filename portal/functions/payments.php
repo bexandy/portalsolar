@@ -26,6 +26,7 @@ if(isset($_REQUEST['ait-payment'])){
 								'user' => $_REQUEST['payment-data-user'],
 								'package' => $_REQUEST['payment-data-package'],
 								'operation' => $_REQUEST['payment-data-operation'],
+								'periodo' => $options['expirationLimit']
 							);
 
 							$paypal->requestPayment($data, $package->getName(), $package->getDesc(), floatval($options['price']), 0, $currency);
@@ -210,10 +211,10 @@ if(class_exists('AitPaypalSubscriptions')){
 			$user->set_role($defaultRole);
 			if($packageOptions['trialTime'] != 0){
 				update_user_meta( $user->ID, 'trial_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
-				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'En periodo de prueba', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
-				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'Sin periodo de prueba', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			aitSetPackageUserRenewed($data['user'], $data['package']);
 		}
@@ -222,10 +223,10 @@ if(class_exists('AitPaypalSubscriptions')){
 			
 			if($packageOptions['trialTime'] != 0){
 				update_user_meta( $user->ID, 'trial_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
-				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'En periodo de prueba', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
-				update_user_meta( $user->ID, 'package_status', array('status' => 'initialized', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'Sin periodo de prueba', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			
 			aitSetPackageUserRenewed($data['user'], $data['package']);
@@ -248,7 +249,7 @@ if(class_exists('AitPaypalSubscriptions')){
 				update_user_meta( $user->ID, 'trial_status', array('status' => 'canceled', 'payment_id' => $payment->recurring_payment_id) );
 				update_user_meta( $user->ID, 'package_status', array('status' => 'canceled', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'Sin periodo de prueba', 'payment_id' => $payment->recurring_payment_id) );
 				update_user_meta( $user->ID, 'package_status', array('status' => 'canceled', 'payment_id' => $payment->recurring_payment_id) );
 			}
 		}
