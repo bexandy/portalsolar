@@ -59,6 +59,7 @@ if(isset($_REQUEST['ait-payment'])){
 								'user' => $_REQUEST['payment-data-user'],
 								'package' => $_REQUEST['payment-data-package'],
 								'operation' => $_REQUEST['payment-data-operation'],
+								'periodo' => $options['expirationLimit']
 							);
 
 							$paypal->createAgreement($data, array(
@@ -161,9 +162,17 @@ if(class_exists('AitPaypalSubscriptions')){
 		if($data['operation'] === 'register'){
 			$user->set_role( $data['package'] );
 
+			if($trialStatus['status'] == 'activated'){
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'expired', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
+			} else {
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'No configurado', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
+			}
+
 			$redirect = home_url('/').'?ait-notification=user-registration-success';
 			wp_safe_redirect( $redirect );
-			exit();
+			//exit();
 		}
 
 		if($data['operation'] === 'renew'){
@@ -172,7 +181,7 @@ if(class_exists('AitPaypalSubscriptions')){
 				update_user_meta( $user->ID, 'trial_status', array('status' => 'expired', 'payment_id' => $payment->recurring_payment_id) );
 				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			} else {
-				update_user_meta( $user->ID, 'trial_status', array('status' => 'not set', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'No configurado', 'payment_id' => $payment->recurring_payment_id) );
 				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
 			}
 			aitSetPackageUserRenewed($data['user'], $data['package']);
@@ -203,8 +212,16 @@ if(class_exists('AitPaypalSubscriptions')){
 		if($data['operation'] === 'register'){
 			$user->set_role( $data['package'] );
 
+			if($trialStatus['status'] == 'activated'){
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'expired', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
+			} else {
+				update_user_meta( $user->ID, 'trial_status', array('status' => 'No configurado', 'payment_id' => $payment->recurring_payment_id) );
+				update_user_meta( $user->ID, 'package_status', array('status' => 'activated', 'payment_id' => $payment->recurring_payment_id) );
+			}
+
 			$redirect = home_url('/').'?ait-notification=user-registration-success';
-			wp_safe_redirect( $redirect );
+			//wp_safe_redirect( $redirect );
 			exit();
 		}
 		if($data['operation'] === 'renew'){
