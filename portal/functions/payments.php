@@ -154,6 +154,7 @@ if(class_exists('AitPaypalSubscriptions')){
 
 	add_action('ait-paypal-subscriptions-payment-completed','aitPaypalPaymentSubscriptionsCompleted');
 	function aitPaypalPaymentSubscriptionsCompleted($payment) {
+		AitPaypalSubscriptions::log('PHP: Pago completado', 'TRACERT');
 		$data = $payment->data;
 		$user = new Wp_User($data['user']);
 		$defaultRole = get_option('default_role');
