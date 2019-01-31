@@ -222,8 +222,8 @@ if(class_exists('AitPaypalSubscriptions')){
 			}
 
 			$redirect = home_url('/').'?ait-notification=user-registration-success';
-			//wp_safe_redirect( $redirect );
-			exit();
+			wp_safe_redirect( $redirect );
+			//exit();
 		}
 		if($data['operation'] === 'renew'){
 			$user->set_role($defaultRole);

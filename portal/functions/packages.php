@@ -18,7 +18,8 @@ class ThemePackages {
 				'expirationLimit' 	=> $package['expirationLimit'],
 				'trialTime' 	=> $package['trialTime'],
 				/*'payment' 			=> isset($package['payment']) ? $package['payment'] : 'payment-id-0',*/
-				'price'				=> isset($package['price']) ? $package['price'] : 0
+				'price'				=> isset($package['price']) ? $package['price'] : 0,
+				'impuesto' 		=> isset($package['impuesto']) ? (bool)$package['impuesto'] : false
 			);
 			$options = apply_filters( 'ait_add_package_option', $options, $package );
 
